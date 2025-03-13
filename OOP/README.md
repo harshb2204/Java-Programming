@@ -94,6 +94,22 @@ System.out.println(dog2.name + " is a " + dog2.breed + " and is " + dog2.age + "
 - Better access control and security.
 - Classes get control over the ownership of the data. Other classes have to go through the getters and setter to access them.
 
+## 3rd Pillar of OOPS – Inheritance
+
+### Definition:
+- Capability of a class to inherit properties from its parent class.
+- It can inherit both functions and variables, so we do not have to write them again in child classes.
+- Can be achieved using the `extends` keyword or through an interface.
+
+### Types of Inheritance:
+- **Single Inheritance**
+- **Multilevel Inheritance**
+- **Hierarchical Inheritance**
+- **Multiple Inheritance** – Through interface, we can resolve the diamond problem.
+
+### Advantages of Inheritance:
+- **Code reusability**
+- **We can achieve Polymorphism using Inheritance.**
 
 
 
