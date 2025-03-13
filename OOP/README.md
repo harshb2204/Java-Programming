@@ -92,6 +92,7 @@ System.out.println(dog2.name + " is a " + dog2.breed + " and is " + dog2.age + "
 ### Advantages of Encapsulation:
 - Loosely coupled code.
 - Better access control and security.
+- Classes get control over the ownership of the data. Other classes have to go through the getters and setter to access them.
 
 
 
