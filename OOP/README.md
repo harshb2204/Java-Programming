@@ -117,7 +117,39 @@ an object of class C and call a method which exists in both A and B, it creates 
 to call which method. A and B can be made interfaces to resolve this problem(diamond problem).
 As interfaces have only method definitions the class has to implement the method accordingly
 
+## 4th Pillar of OOPS – Polymorphism
+
+### Definition:
+- "Poly" means **Many** and "Morphism" means **Form**.
+- A same method behaves differently in different situations.
+
+### Example:
+- A person can be a father, husband, employee, etc.
+- Water can be liquid, solid, and gas.
+
+### Types of Polymorphism:
+- **Compile Time / Static Polymorphism / Method Overloading**
+- **Run Time / Dynamic Polymorphism / Method Overriding**
 
 
+# Object Relationships
+
+## Is-a Relationship  
+- Achieved through **Inheritance**.  
+- Example: **DOG is-a Animal**.  
+- Inheritance forms an **is-a** relation between its parent and child classes.  
+
+## Has-a Relationship  
+- Whenever an object is used in another class, it is called a **HAS-A** relationship.  
+- Relationship types: **one-one, one-many, many-many**.  
+
+### Examples:  
+- **School has Students**.  
+- **Bike has Engine**.  
+- **School has Classes**.  
+
+### Association: Relationship between two different objects.  
+- **Aggregation**: Both objects can survive independently, meaning the ending of one object will **not** affect the other.  
+- **Composition**: The ending of one object **will** also end another object.  
 
 
