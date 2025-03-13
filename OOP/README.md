@@ -111,6 +111,13 @@ System.out.println(dog2.name + " is a " + dog2.breed + " and is " + dog2.age + "
 - **Code reusability**
 - **We can achieve Polymorphism using Inheritance.**
 
+#### Why multiple inheritance is not allowed?
+- If we have a class C extending class A and class B, then we create
+an object of class C and call a method which exists in both A and B, it creates confusion 
+to call which method. A and B can be made interfaces to resolve this problem(diamond problem).
+As interfaces have only method definitions the class has to implement the method accordingly
+
+
 
 
 
