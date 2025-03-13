@@ -66,3 +66,34 @@ System.out.println(dog2.name + " is a " + dog2.breed + " and is " + dog2.age + "
 }
 }
 ```
+## 1st Pillar of OOPS – Data Abstraction
+
+- It hides the internal implementation and shows only essential functionality to the user.
+- It can be achieved through Interface and abstract classes.
+
+## Example:
+- **Car** – we are only shown the **BRAKE** pedal, and if we press it, the car's speed will reduce. But **HOW**? That is **ABSTRACTED** to us.
+- **Cellphone** – How a call is made is **abstracted** to us.
+
+## Advantages of Abstraction:
+- Increases security and confidentiality.
+- Simplifies client code.
+
+
+## 2nd Pillar of OOPS – Data Encapsulation
+
+- Encapsulation bundles the data and the code working on that data in a single unit.
+- Also known as **DATA-HIDING**.
+
+## Steps to achieve encapsulation:
+- Declare variables of a class as **private**.
+- Provide **public getters and setters** to modify and view the value of the variables.
+
+## Advantages of Encapsulation:
+- Loosely coupled code.
+- Better access control and security.
+
+
+
+
+
