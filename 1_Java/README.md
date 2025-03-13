@@ -2,7 +2,7 @@
 
 Java is a **platform-independent**, **object-oriented programming (OOP)** language known for its **portability**—Write Once, Run Anywhere (WORA).  
 
-## 👉 Key Features of Java  
+## Key Features of Java  
 - **Platform-Independent**: Java programs can run on any system with a Java Virtual Machine (JVM).  
 - **Object-Oriented**: Follows OOP principles such as **Encapsulation, Inheritance, Polymorphism, and Abstraction**.  
 - **Robust & Secure**: Provides features like garbage collection, exception handling, and memory management.  
@@ -11,11 +11,11 @@ Java is a **platform-independent**, **object-oriented programming (OOP)** langua
 
 ---
 
-## 🛠 Java Architecture: 3 Main Components  
+## Java Architecture: 3 Main Components  
 
 ![Java Architecture](/diagrams/jdkjrejvm.png)  
 
-### 1️⃣ **JVM (Java Virtual Machine)**  
+###  **JVM (Java Virtual Machine)**  
 - An **abstract machine** that provides the runtime environment to execute Java bytecode.  
 - **Platform-dependent**, meaning different JVMs exist for different operating systems.  
 - Includes the **JIT (Just-In-Time) compiler**, which converts bytecode into native machine code for faster execution.  
@@ -35,7 +35,7 @@ java filename        # Executes the compiled Java program
 
 ---
 
-### 2️⃣ **JRE (Java Runtime Environment)**  
+###  **JRE (Java Runtime Environment)**  
 - A package that provides the **runtime environment** for Java applications.  
 - **Includes JVM** + essential **class libraries** and runtime dependencies.  
 - Used for **running Java applications**, but does **not** include development tools like a compiler or debugger.  
@@ -46,7 +46,7 @@ java filename        # Executes the compiled Java program
 
 ---
 
-### 3️⃣ **JDK (Java Development Kit)**  
+### **JDK (Java Development Kit)**  
 - A full-featured **software development kit (SDK)** for Java programming.  
 - **Includes JRE + additional tools** required for Java development:  
   - **Java Compiler (`javac`)**: Converts source code into bytecode.  
@@ -57,7 +57,7 @@ java filename        # Executes the compiled Java program
 
 ---
 
-## 🌍 Platform Independence in Java  
+##  Platform Independence in Java  
 While **JVM, JRE, and JDK are platform-dependent**, the **Java bytecode is platform-independent**.  
 - Java achieves **portability** by using **bytecode**, which can run on any system with a compatible JVM.  
 
@@ -66,7 +66,7 @@ While **JVM, JRE, and JDK are platform-dependent**, the **Java bytecode is platf
 
 ---
 
-## 📌 Summary  
+ 
 
 | Component | Purpose | Contains | Platform Dependency |
 |-----------|---------|----------|---------------------|
@@ -74,4 +74,17 @@ While **JVM, JRE, and JDK are platform-dependent**, the **Java bytecode is platf
 | **JRE** | Provides runtime environment | JVM + Standard Libraries | Platform-Dependent |
 | **JDK** | Provides development tools | JRE + Compiler + Debugger | Platform-Dependent |
 
+
+# Java Editions Overview
+
+## Java Standard Edition (JSE)
+- Core Java features and libraries.
+
+## Java Enterprise Edition (JEE)
+- Built on JSE with additional APIs for enterprise applications.
+- Includes APIs like Servlets, JSP, Transaction API, and Persistence API.
+- Suitable for large-scale applications.
+
+## Java Micro/Mobile Edition (JME)
+- Specialized API for mobile and embedded applications.
 
