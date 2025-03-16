@@ -88,3 +88,14 @@ While **JVM, JRE, and JDK are platform-dependent**, the **Java bytecode is platf
 ## Java Micro/Mobile Edition (JME)
 - Specialized API for mobile and embedded applications.
 
+
+
+## Why in java a single file can have only 1 public class?
+- main is a entry point of our program
+- it should be inside a public class
+- public class name should be same as file name
+- main method is static as it can be called by JVM using the class name
+- say Employee.java has many classes, jvm is going to call main method
+and it should be in a public class, if there are more than 1 public class
+how will the jvm know where the main method is. Thus java put a restriction.
+ 
