@@ -55,12 +55,65 @@
   - Value: True or False
   - Default value is False
 
-### Non-Primitive / Reference Type
-- class
-- interface
-- array
-- string
-- enum
+
+## Types of Conversion
+
+1) **Widening / Automatic Conversion**
+   - Automatic conversion when we go from lower data type to higher data type.
+
+   ```
+   byte (1 byte) 
+   short (2 bytes) 
+   int (4 bytes) 
+   long (8 bytes)
+   ```
+
+   e.g., 
+   ```java
+   int var = 10;
+   long varLong = var; // Automatically converted int to long
+   ```
+
+2) **Narrowing / Downcasting / Explicit Conversion**
+   - It is the opposite of widening, i.e., going from higher data type to lower data type.
+   - In this case, downcasting doesn't happen automatically, so we have to manually do it.
+
+   e.g., 
+   ```java
+   int integerVariable = 10;
+   byte byteVariable = (byte) integerVariable;
+   ```
+
+   - If we're downcasting beyond range, then it'll again reset to -128 and it goes on.
+   - So if `integerVariable`'s value is 128, then `byteVariable`'s value will be -128 (next after 127 is -128 for byte).
+   - If it's 148, then `byteVariable`'s value will be -108.
+
+3) **Promotion During Expression**
+   - This happens internally during expression evaluation.
+   - As soon as a value of an expression crosses the range of the datatype, then promotion happens internally to a higher datatype.
+   - `byte` and `short` promote to `int`.
+
+   e.g., 
+   ```java
+   byte a = 1;
+   byte b = 127;
+   byte c = (byte) (a + b); // Won't work since range is crossing
+   // We'll have to declare it as int as the result will be int.
+   ```
+
+   - Although we can explicitly downcast it, the value will change as per explicit downcasting terms.
+   - This is also explicit casting during expression evaluation.
+   - In an expression, if one datatype is of higher datatype, then all others will also be automatically converted to higher datatype.
+
+   e.g., 
+   ```java
+   int a = 34;
+   double doubleVar = 2.0;
+   int sum = a + doubleVar; // Will give error
+   double sum = a + doubleVar; // Correct
+   ```
+
+
 
 
 
