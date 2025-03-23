@@ -131,6 +131,42 @@
 ### Constructor Parameters
 - These are the variables that are passed to a constructor.
 
+## Fractional Types
+
+### How `float` and `double` are stored in memory
+- **Float**: 
+  - 1 Bit for Sign
+  - 8 Bits for Exponent
+  - 23 Bits for Mantissa (Significant)
+
+#### Example: 4.125f
+1. **Convert to binary**:
+   
+
+    Binary equivalent of 4.125 is \(100.001\).
+
+2. **Make it in the form of** \( (1.xxx) \times 2^{exponent} \):
+   - \(100.001 \rightarrow 1.00001 \times 2^2\)
+
+3. **Add bias to the exponent**:
+   - Since the bias for `float` is 127, we add it to the exponent:
+   - \(127 + 2 = 129\)
+
+4. **Fill the numbers**:
+   - Sign bit: 0
+   - Binary of 129: \(10000001\)
+   - Mantissa: \(000001\) (rest bits are empty)
+
+### Converting back from binary to float
+- The formula is:
+  \[
+  (-1) \times (1 + mantissa) \times 2^{exponent - 127}
+  \]
+- For example:
+  \[
+  (1) \times (1 + 0.00001) \times 2^{129 - 127} = 4.125
+  \]
+
 
 
 
