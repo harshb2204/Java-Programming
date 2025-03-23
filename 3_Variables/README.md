@@ -113,6 +113,24 @@
    double sum = a + doubleVar; // Correct
    ```
 
+## Kind of Variables
+
+### Member / Instance Variable
+- It is a variable of the class i.e., it is created when an object of the class containing it is created. So, each object of the class has its individual copy of the member variable.
+
+### Local Variable
+- These variables are the variables that are defined inside a method.
+- If the method finishes, it gets destroyed.
+
+### Static / Class Variable
+- Only one copy of static/class variable exists. All objects can access it using the class name.
+
+### Method Parameters
+- These are the variables that are passed to a method.
+
+### Constructor Parameters
+- These are the variables that are passed to a constructor.
+
 
 
 
