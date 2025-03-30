@@ -176,6 +176,18 @@ name holds a reference to the actual memory.
 ![](/diagrams/reference1.png)
 - In Java ,everything is pass by value.So with the help of renference variables we're achieving the functionality of pointers in CPP
 
+### String
+- Strings are immutable in Java
+- It contains String literal
+- Inside heap, there is a fixed memory space called String Constant Pool
+- Each String literal in String Constant Pool has a corresponding String object
+![](/diagrams/stringconstantpool.png)
+
+Since strings are immutable, 2 same strings holds reference to same string literal in String Constant Pool. As shown in s1, s2, holds reference to same string literal "hello". This applies for normal strings. If we create using new keyword, it'll be stored as normal object in heap.
+e.g., String s3 = new String("hello");
+s1.equal(s2) checks the contents of the string
+s1==s2 checks if they are pointing to the same memory or not
+
 
 
 
