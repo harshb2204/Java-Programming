@@ -142,6 +142,41 @@ Therefore always use BigDecimal
 
 
 
+## Reference Data Types / Non-Primitive Data Types
+
+There are mainly 4 types of reference data types:
+- Class
+- String
+- Interface
+- Array
+
+### What is a Reference?
+Let's understand with an example of class:
+
+```java
+public class Employee {
+    int empId;
+    
+    public int getEmpId() {
+        return empId;
+    }
+    
+    public void setEmpId(int empId) {
+        this.empId = empId;
+    }
+}
+```
+
+To create an object of class Employee:
+```java
+Employee empObject = new Employee();
+```
+new keyword allocates a memory block object and the variables
+name holds a reference to the actual memory.
+![](/diagrams/reference1.png)
+- In Java ,everything is pass by value.So with the help of renference variables we're achieving the functionality of pointers in CPP
+
+
 
 
 
