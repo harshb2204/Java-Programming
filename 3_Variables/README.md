@@ -188,6 +188,55 @@ e.g., String s3 = new String("hello");
 s1.equal(s2) checks the contents of the string
 s1==s2 checks if they are pointing to the same memory or not
 
+### Interface
+To understand better, let's create an interface & implement it:
+
+```java
+public interface Person {
+    public String profession();
+}
+```
+
+This interface can be implemented by different classes:
+
+```java
+public class Teacher implements Person {
+    @Override
+    public String profession() {
+        return "teacher";
+    }
+}
+
+public class Engineer implements Person {
+    @Override
+    public String profession() {
+        return "software engineer";
+    }
+}
+```
+
+Now let's create a few objects in a class:
+```java
+public class Student {
+    public static void main(String args[]) {
+        Person softwareEngineer = new Engineer();
+        Person teacher = new Teacher();
+        Teacher teacher1 = new Teacher();
+        Engineer softwareEngineer1 = new Engineer();
+    }
+}
+```
+![](/diagrams/interface.png)
+
+### Array
+- Sequence of memory storing same datatype
+For example:
+```java
+int[] arr = new int[5];    // capacity of array
+
+```
+![](/diagrams/arrays.png)
+- Arrays can be assigned in multiple ways. It can be of multiple types like 1D , 2D exc.
 
 
 
