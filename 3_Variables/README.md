@@ -238,6 +238,56 @@ int[] arr = new int[5];    // capacity of array
 ![](/diagrams/arrays.png)
 - Arrays can be assigned in multiple ways. It can be of multiple types like 1D , 2D exc.
 
+## Wrapper Class
+
+For each of the primitive data types, we have corresponding reference types that are known as Wrapper Classes:
+
+| Primitive Type | Wrapper Class |
+|---------------|---------------|
+| int | Integer |
+| char | Character |
+| short | Short |
+| byte | Byte |
+| long | Long |
+| float | Float |
+| double | Double |
+| boolean | Boolean |
+
+There are two processes involved:
+- Autoboxing
+- Unboxing
+
+### Why the need for wrapper classes?
+- We get the advantage of passing by reference. For example, if we've declared a wrapper type of int i.e Integer type, we can change it later on & it'll change in memory as well because in wrapper we're storing reference.
+- In primitive this won't be possible as they're stored in stack & not heap.
+
+- The collections works on objects only i.e on reference data types, so we need wrapper class to use collections.
+
+### Autoboxing
+- To convert a primitive data type to its wrapper.
+For example:
+```java
+int a = 10;
+Integer a1 = a;    // primitive to its wrapper
+```
+
+### Unboxing
+- To convert a wrapper class to primitive
+For example:
+```java
+Integer n = 20;
+int n1 = n;    // wrapper to primitive
+```
+
+## Constant Variable
+- We cannot change the value of a constant variable. This is usually created using final keyword.
+For example:
+```java
+static final VAR = 10;
+```
+- static means only one copy exists
+- final means the value of VAR can't be changed
+
 
 
 
