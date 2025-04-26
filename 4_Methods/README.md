@@ -65,3 +65,44 @@ Where:
 - Method body gets finished when you call 'return' in mid
 - Gets finished when reached to the end
 - We can end any method by return, even for void return type
+
+
+## Types Of Methods
+
+### System Defined Methods
+- Methods which are already defined and ready to use in Java, like `Math.sqrt()`
+
+### User Defined Methods
+- Methods which the programmer creates based upon the program necessity
+
+### Overloaded Method
+- More than one method with the same name is created in the same class
+- Overloaded Method only gets differentiated based on arguments, so name should be same, arguments should be different, and return type is not even considered
+
+```java
+public class Invoice {
+    void getInvoice() {
+        System.out.println("inside invoice method");
+        return;
+    }
+
+    void getInvoice(String z) {
+    }
+
+    int getInvoice(int a) {
+        // doing some other stuff
+    }
+
+    void getInvoice(int a, int b) {
+        // something else
+    }
+
+    public void printInvoice() {
+        getInvoice();
+    }
+}
+```
+```
+
+
+
