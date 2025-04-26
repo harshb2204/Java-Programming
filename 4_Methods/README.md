@@ -102,7 +102,25 @@ public class Invoice {
     }
 }
 ```
-```
 
+### Overridden Method
+- Subclass / Child Class has the same method as the parent class.
 
+### Static Methods
+- These methods are associated with the class.
+- Can be called just with class name.
+- Static methods cannot access non-static instance variables and methods.
+- Static methods cannot be overridden.
 
+**So when to declare method static:**
+- Methods which do not modify the state of the object can be declared static.
+- Utility methods which do not use any instance variable and compute only on arguments.  
+  Example: Factory design pattern
+
+### Final Methods
+- Final Method cannot be overridden in Java. It is so because final method means its implementation cannot be changed. If child class cannot change its implementation, then no use of overridden.
+
+### Abstract Method
+- It is defined only in abstract class.
+- Only method declaration is done.
+- Its implementation is done in child classes.
