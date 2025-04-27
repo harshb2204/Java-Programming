@@ -112,6 +112,33 @@ public class Invoice {
 - Static methods cannot access non-static instance variables and methods.
 - Static methods cannot be overridden.
 
+**Method Hiding (Static Method Overriding)**
+- When a subclass declares a static method with the same signature as a static method in the parent class, it's called method hiding, not method overriding.
+- Unlike instance methods, static methods are resolved at compile-time based on the reference type, not the runtime object type.
+- The method to be called is determined by the type of the reference variable, not the actual object type.
+
+Example:
+```java
+class Parent {
+    static void display() {
+        System.out.println("Parent's display");
+    }
+}
+
+class Child extends Parent {
+    static void display() {
+        System.out.println("Child's display");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.display(); // Prints "Parent's display" because static methods are resolved at compile-time
+    }
+}
+```
+
 **So when to declare method static:**
 - Methods which do not modify the state of the object can be declared static.
 - Utility methods which do not use any instance variable and compute only on arguments.  
