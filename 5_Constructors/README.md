@@ -20,3 +20,23 @@ There can be methods with same name and even class as return type, but they cann
 
 ### Why can't constructors be final?
 Constructors are different from usual methods and cannot be inherited. Therefore, it doesn't make sense to make them final because final is used to prevent overriding. If constructors cannot be inherited, then there's no point in making them final.
+
+### Why can't constructors be abstract?
+Since for abstract method, the responsibility of implementation is of child class. But constructors can't even be inherited, so there's no point of making them abstract.
+
+### Why can't constructors be static?
+Since static methods can only access static variables & other static methods, it won't be able to initialize the instance variables. We also won't be able to use constructor chaining & call super().
+
+### Can we define constructor in interface?
+No, because we cannot create object so there's no point of constructor.
+
+## Types of Constructors
+
+### 1. Default Constructor
+- When we do not define a constructor, Java internally provides a constructor which is known as default constructor
+- Default constructor also set default values for all the instance variables
+- It is added only when we do not define a constructor
+
+### 2. No Argument Constructor
+- A constructor that does not take any argument
+- It is very similar to default constructor but we are defining it instead of Java
