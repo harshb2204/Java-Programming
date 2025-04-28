@@ -69,3 +69,71 @@ class Calculation {
     }
 }
 ```
+
+## The `this` and `super` Keywords
+
+### The `this` Keyword
+- `this` refers to the current instance of the class
+- Uses of `this`:
+  1. To refer to current class instance variables
+  ```java
+  class Student {
+      String name;
+      Student(String name) {
+          this.name = name;  // this.name refers to instance variable
+      }
+  }
+  ```
+  2. To invoke current class constructor (Constructor chaining)
+  ```java
+  class Student {
+      Student() {
+          this("John");  // calls parameterized constructor
+      }
+      Student(String name) {
+          this.name = name;
+      }
+  }
+  ```
+  3. Can be used to return the current class instance
+  ```java
+  class Chain {
+      Chain method() {
+          return this;  // returns current instance
+      }
+  }
+  ```
+
+### The `super` Keyword
+- `super` refers to the immediate parent class instance
+- Uses of `super`:
+  1. To call parent class constructor
+  ```java
+  class Parent {
+      Parent(String name) {
+          // parent constructor
+      }
+  }
+  class Child extends Parent {
+      Child() {
+          super("John");  // calls parent constructor
+      }
+  }
+  ```
+  2. To refer to parent class instance variables
+  ```java
+  class Child extends Parent {
+      String name;
+      Child() {
+          this.name = "child";
+          super.name = "parent";  // refers to parent's name
+      }
+  }
+  ```
+
+### Important Rules
+1. `this()` and `super()` must be the first statement in constructor
+2. Cannot use both `this()` and `super()` in the same constructor
+3. `super()` is added implicitly by Java if no super() or this() is specified
+4. `this` cannot be used in static context
+5. `super` is commonly used to resolve method overriding
