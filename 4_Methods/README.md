@@ -151,3 +151,39 @@ public class Main {
 - It is defined only in abstract class.
 - Only method declaration is done.
 - Its implementation is done in child classes.
+
+### Variable Arguments (Varargs)
+- Allows a method to accept variable number of inputs in the parameter.
+- Only one variable argument can be present in the method.
+- It should be the last argument in the parameter list.
+- Used when we don't know the exact number of arguments that will be passed to the method.
+
+Example:
+```java
+public class Calculation {
+    static int carPrice = 40;
+    
+    public int sum(int a, int... variable) {
+        int output = 0;
+        for(int var : variable) {
+            output = output + var;
+        }
+        return output;
+    }
+}
+
+public class Main {
+    public static void main(String[] args[]) {
+        Calculation calculationObj = new Calculation();
+        calculationObj.sum(3);                          // passing one argument
+        calculationObj.sum(8, 9, 10);                   // passing three arguments
+        calculationObj.sum(3, 2, 3, 2, 2, 2, 2);       // passing seven arguments
+    }
+}
+```
+
+In this example:
+- The `sum` method can accept any number of integer arguments after the first parameter
+- The variable arguments are treated as an array inside the method
+- We can iterate through the variable arguments using a for-each loop
+- The method can be called with different numbers of arguments as shown in the main method
