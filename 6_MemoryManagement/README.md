@@ -44,6 +44,14 @@ public class MemoryManagement {
     }
 }
 ```
+
+
 ![](/diagrams/memory.png)
+### Memory Deallocation Process
+1. When the `memoryManagementTest` method encounters its closing bracket, its scope ends. All variables within this method (personObj2, stringLiteral2, stringObject) are deleted from the stack in LIFO order.
+
+2. Control then returns to the `main()` method. Once `main()` method completes execution (reaches its closing bracket), its portion of the stack (containing primitiveVariable1, personObj1, stringLiteral1, and memObj references) is also deallocated in LIFO order.
+
+This demonstrates how Java efficiently manages memory by automatically deallocating stack memory as soon as the scope of methods ends.
 
 
