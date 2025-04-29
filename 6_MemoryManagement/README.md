@@ -25,3 +25,25 @@ Java manages memory in two main areas that the JVM manages:
 - Heap memory is shared across all threads
 - Garbage collection algorithms manage memory cleanup
 
+## Example Code
+
+```java
+public class MemoryManagement {
+    public static void main(String[] args[]) {
+        int primitiveVariable1 = 10;  // primitive data type
+        Person personObj1 = new Person();  // reference of object
+        String stringLiteral1 = "abc";  // string literal
+        MemoryManagement memObj = new MemoryManagement();
+        memObj.memoryManagementTest(personObj1);
+    }
+
+    private void memoryManagementTest(Person personObj) {
+        Person personObj2 = personObj;  // reference of object
+        String stringLiteral2 = "xyz";  // string literal
+        String stringObject = new String("xyz");  // string object
+    }
+}
+```
+![](/diagrams/memory.png)
+
+
