@@ -54,4 +54,11 @@ public class MemoryManagement {
 
 This demonstrates how Java efficiently manages memory by automatically deallocating stack memory as soon as the scope of methods ends.
 
+### Garbage Collection Process
+After the stack is cleared and all references are deleted, the objects still remain in the heap memory. This is where the Garbage Collector's role becomes crucial. The Garbage Collector will detect and delete all the unreferenced objects from the heap.
+
+The Garbage Collector runs periodically, and the JVM controls when to run the garbage collector. While you can request garbage collection using `System.gc()`, this doesn't guarantee that GC will run immediately. This is why Java is called automatic memory management.
+
+The frequency of Garbage Collection running is directly proportional to how much of the heap memory is currently full. As the heap fills up, garbage collection runs more frequently to free up memory.
+
 
