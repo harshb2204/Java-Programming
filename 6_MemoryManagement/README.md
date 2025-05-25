@@ -96,3 +96,59 @@ obj1 = obj2; // now obj1 refers to obj2
 Now `obj1` will have a reference to the object of `obj2` in heap. When GC runs, the earlier object which `obj1` was referring to will be deleted.
 
 
+## ➔ Heap Memory
+Heap memory is divided into two parts i.e. Young Generation and Old Generation. There is also one more part which is generally known as Non Heap (Metaspace). Before Java 7 it is called permgen but now it is not used & it is used as metaspace.
+
+Now young generation is further divided into 3 parts named Eden, S0 (S zero) and S1. S zero & S1 are known as survivor space.
+![](/diagrams/gc1.png)
+
+## Object Creation and Eden Space
+Now let's see when we create an object, what happens to it.
+
+* Whenever a new object is created, it goes to Eden first. Let's say we've created 5 objects (o1, o2, o3, o4 & o5). They'll be created in Eden first.
+* So now heap memory looks like this.
+![](/diagrams/gc2.png)
+
+So 5 objects are created inside Eden.
+
+Now let's say Garbage Collector runs & there is no reference to o2, o5 in the heap space. So now GC will use Mark & Sweep Algorithm i.e. in Mark, GC will mark the objects which no more have reference & then Sweep in which it'll do 2 things:
+
+- First remove dereferenced objects (o2, o5) from the memory
+- Move the rest of survivor objects into one of the survivor spaces i.e. S0 or S1, and adds age to the objects. So after GC runs, heap now looks like:
+![](/diagrams/gc3.png)
+
+Now GC has run once. This whole process is called minor GC as it happens very periodically & very fast.
+
+Let's now create 2 more objects o6, o7. So heap now looks like:
+
+![](/diagrams/gc4.png)
+
+o6, o7 are now created in Eden. Now let's say the GC runs again & this time no reference is there for o4, o7. So now GC will:
+- Mark o4, o7
+- Delete o4, o7
+- Move o1, o3, o6 (survivors) to S1 with corresponding ages.
+
+Therefore, post this minor GC, the heap looks like:
+
+![](/diagrams/gc5.png)
+
+So at one time Eden would be completely free after the GC & one of the survivor spaces (S0 or S1) would be free and we put data alternatively in S0 & S1, along with the respective age.
+
+Now let's create two more objects o8 & o9 & heap looks like:
+
+![](/diagrams/gc6.png)
+
+Now let's say I've set the threshold age to 3.
+
+Therefore, now objects with age 3 need to be promoted. Promotion means that now the objects with age 3 will be moved to Old Generation.
+
+Let's now run GC assuming that there are no more references to o3, o8, hence will be deleted. So GC will now:
+- Mark o3, o8
+- Delete o3, o8
+- Move the survivor objects (o6, o9) to S0, and since o1 still has reference with age 3, it'll be promoted i.e. moved to old generation
+
+How the heap looks like:
+![](/diagrams/gc7.png)
+
+
+
