@@ -31,10 +31,10 @@ Java manages memory in two main areas that the JVM manages:
 public class MemoryManagement {
     public static void main(String[] args[]) {
         int primitiveVariable1 = 10;  // primitive data type
-        Person personObj1 = new Person();  // reference of object
+        Person personObj = new Person();  // reference of object
         String stringLiteral1 = "abc";  // string literal
         MemoryManagement memObj = new MemoryManagement();
-        memObj.memoryManagementTest(personObj1);
+        memObj.memoryManagementTest(personObj);
     }
 
     private void memoryManagementTest(Person personObj) {
@@ -60,5 +60,39 @@ After the stack is cleared and all references are deleted, the objects still rem
 The Garbage Collector runs periodically, and the JVM controls when to run the garbage collector. While you can request garbage collection using `System.gc()`, this doesn't guarantee that GC will run immediately. This is why Java is called automatic memory management.
 
 The frequency of Garbage Collection running is directly proportional to how much of the heap memory is currently full. As the heap fills up, garbage collection runs more frequently to free up memory.
+
+## Type of References
+
+### Strong Reference
+- It is when a variable in stack is referencing an object in heap memory.
+- Till the time the reference exists, GC (Garbage Collector) won't be able to delete the object from the heap memory.
+
+**For example:**
+```java
+Person pobj = new Person();
+```
+So here, `pobj` has a strong reference to a `Person` object in the heap memory. Till the time this reference exists, GC won't be able to delete the `Person` object from the heap.
+
+### Weak Reference
+- In weak reference, also the reference exists to an object in the heap, but as soon as GC runs, the object is deleted from heap memory even if some variable is referencing this object from the stack. The variable in the stack will get null if it tries to access the object post GC run.
+
+**For example:**
+```java
+WeakReference<Person> weakRef = new WeakReference<Person>(new Person());
+```
+
+### Soft Reference
+- It is a type of weak reference, but the difference is that in this case the object will be deleted only when there is a shortage of space in the heap.
+- So GC is allowed to delete a soft reference, but it will keep the object if sufficient space is there in the heap.
+
+### Reference can be changed by referencing a current object to a new variable
+
+**Example:**
+```java
+Person obj1 = new Person(); // created new object
+Person obj2 = new Person(); // created another object
+obj1 = obj2; // now obj1 refers to obj2
+```
+Now `obj1` will have a reference to the object of `obj2` in heap. When GC runs, the earlier object which `obj1` was referring to will be deleted.
 
 
