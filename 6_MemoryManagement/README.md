@@ -161,5 +161,31 @@ The metaspace contains:
 * Prior to Java 8, there is a fixed space called permagen which used to store the data that is stored in metaspace. Since it was non-expandable, once it filled, we'd get out of memory error.
   But now from Java 8, metaspace is there which is different from heap & is expandable.
 
+Garbage Collector Algorithms
+* Mark & Sweep Algorithm (Already Discussed)
+* Mark & Sweep with compact memory
+  In this, once the GC runs, the remaining objects are put in a sequential memory block leaving another sequential block free to put objects.
+
+Let's take this example:
+![](/diagrams/gc8.png)
+
+## Versions of GC
+
+1) Serial GC
+- In this, only one GC thread is working for both minor and major GC.
+- Its disadvantage is that due to the single thread, GC will be slower, but since GC is expensive (because when GC work starts, all application threads pause), this is one of the disadvantages of serial.
+
+2) Parallel GC
+- In this, there are parallel threads running based on the CPU configuration. So GC works faster. So the application threads will be in paused state for lesser time.
+
+3) Concurrent Mark & Sweep
+- In this, the GC will try its best to run concurrently with application threads but there is no guarantee. In this, there is no memory compaction happens.
+
+4) G1 Garbage Collection
+- This is a better version of concurrent mark & sweep in which GC will try not to stop/pause the application thread and supports memory compaction as well.
+
+* Currently Java 8 is using parallel GC
+* In latest Java versions using CMS & G1, there is a high chance that pause time is minimal thus increasing throughput & decreasing latency.
+
 
 
