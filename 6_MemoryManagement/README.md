@@ -150,5 +150,16 @@ Let's now run GC assuming that there are no more references to o3, o8, hence wil
 How the heap looks like:
 ![](/diagrams/gc7.png)
 
+In the old generation, the only difference is that here it is called major GC because the GC in Old Generation won't run too periodically. So in Old Generation, the GC runs less periodically as compared to young gen, and the objects in old gen are kind of big objects that are used too frequently & these might have a lot of references pointing to them.
+
+Now let's come to metaspace. What will it store?
+The metaspace contains:
+- Class variables
+- Class metadata (basically stores info about class from which objects can be created)
+- Constants
+
+* Prior to Java 8, there is a fixed space called permagen which used to store the data that is stored in metaspace. Since it was non-expandable, once it filled, we'd get out of memory error.
+  But now from Java 8, metaspace is there which is different from heap & is expandable.
+
 
 
