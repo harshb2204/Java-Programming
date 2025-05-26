@@ -97,3 +97,127 @@ public class Audi extends LuxuryCar {
 
 - `LuxuryCar` is another abstract class inheriting from the abstract class `Car` and adds an additional abstract method.
 - `Audi` is a concrete class inheriting from the abstract class `LuxuryCar` and implements all abstract methods.
+
+## Super and Sub Class:
+-----------------------
+- A class that is derived from another class is called a Subclass.
+- And from class through which Subclass is derived it's called Superclass.
+- In Java, in the absence of any other explicit superclass, every class is implicitly a subclass of Object class.
+- Object is the topmost class in Java.
+- It has some common methods like clone(), toString(), equals(), notify(), wait() etc.
+
+### For example:
+
+```java
+public class ObjectTest {
+    public static void main(String[] args) {
+        ObjectTest obj = new ObjectTest();
+
+        Object obj1 = new Person(1);
+        Object obj2 = new Audi(10);
+
+        System.out.println(obj1.getClass());
+        System.out.println(obj2.getClass());
+    }
+}
+```
+
+Output:
+```
+class Person
+class Audi
+```
+
+*Since Object is the parent class of every class in Java & we know that reference of child class can be kept in parent class, hence Audi & Person objects can be kept in reference of Object.*
+
+## Nested Class:
+----------------
+Class within another class is called Nested Class.
+
+**When to use?**
+If you know that, a class(A) will be used by only one another class(B), then instead of creating a new file (A.java) for it, we can create nested class inside B class itself.
+And it also helps to group logically related classes in one file.
+
+**Scope:**
+Its scope is same as of its Outer class.
+
+It is of 2 types:
+- Static Nested Class
+- Non Static Nested Class
+  - Member Inner Class
+  - Local Inner Class
+  - Anonymous Inner Class
+
+---
+
+Now let's go through types of nested classes one by one:
+
+## Static Nested Class:
+-----------------------
+- It does not have access to the non-static instance variable and method of outer class.
+- Its object can be initiated without initiating the object of outer class.
+- It can be private, public, protected or package-private (default, no explicit declaration).
+
+### For example:
+
+```java
+class OuterClass {
+    int instanceVariable = 10;
+    static int classVariable = 20;
+
+    static class NestedClass {
+        public void print() {
+            System.out.println(classVariable + instanceVariable); // Error: static inner class can only access static variables/methods
+        }
+    }
+}
+```
+
+### Accessing Static Nested Classes
+
+Since static classes can be accessed directly with the name of the class, we only need the name of the outer class. Hence, an object of the outer class is not needed.
+
+```java
+public class ObjectTest {
+    public static void main(String args[]) {
+        OuterClass.NestedClass nestedObj = new OuterClass.NestedClass();
+        nestedObj.print();
+    }
+}
+```
+
+---
+
+- Nested Classes can be created with any type of access modifier, i.e. public, private, protected, default (package-private).
+
+Let's take the example of a nested class with private access modifier:
+- Nested class object can be created within the same class itself.
+
+```java
+class OuterClass {
+    int instanceVariable = 10;
+    static int classVariable = 20;
+
+    private static class NestedClass {
+        public void print() {
+            System.out.println(classVariable);
+        }
+    }
+
+    public void display() {
+        NestedClass nestedObj = new NestedClass();
+        nestedObj.print();
+    }
+}
+
+public class ObjectTest {
+    public static void main(String args[]) {
+        OuterClass outerClassObj = new OuterClass();
+        outerClassObj.display();
+    }
+}
+```
+
+So, to access the private nested class, we had to create an object within the class itself and then expose it.
+
+
