@@ -220,4 +220,121 @@ public class ObjectTest {
 
 So, to access the private nested class, we had to create an object within the class itself and then expose it.
 
+## Inner Class or Non Static Nested Class:
+-----------------------------------------
+- It has access to all the instance variables and methods of the outer class.
+- Its object can be initiated only after initiating the object of the outer class.
+
+1. **Member Inner Class:**
+   - It can be private, public, protected, or default.
+
+### For Example:
+
+```java
+class OuterClass {
+    int instanceVariable = 10;
+    static int classVariable = 20;
+
+    class InnerClass {
+        public void print() {
+            System.out.println(classVariable + instanceVariable);
+        }
+    }
+}
+```
+
+*To invoke it, we'll need an object of the outer class:*
+
+```java
+public class ObjectTest {
+    public static void main(String args[]) {
+        OuterClass outerClassObj = new OuterClass();
+        OuterClass.InnerClass innerClassObj = outerClassObj.new InnerClass();
+        innerClassObj.print();
+    }
+}
+```
+
+---
+
+## Local Inner Class:
+---------------------
+- These are those classes which are defined in any block like for loop, while loop block, if condition block, method etc.
+- It cannot be declared as private, protected, or public. Only default (not defined explicit) access modifier is used.
+- It cannot be initiated outside of this block.
+
+### For Example:
+
+```java
+class OuterClass {
+    int instanceVariable = 1;
+    static int classVariable = 2;
+
+    public void display() {
+        int methodLocalVariable = 3;
+        class LocalInnerClass {
+            int localInnerVariable = 4;
+            public void print() {
+                System.out.println(instanceVariable + classVariable + methodLocalVariable + localInnerVariable);
+            }
+        }
+        LocalInnerClass localObj = new LocalInnerClass();
+        localObj.print();
+    }
+}
+```
+
+*So, it can be invoked inside the block only. As soon as the scope of block ends, its scope also ends.*
+
+## Inheritance in Nested Classes
+--------------------------------
+
+### Example 1: One inner class can inherit another inner class in the same outer class
+
+```java
+class OuterClass {
+    int instanceVariable = 1;
+    static int classVariable = 2;
+
+    class InnerClass1 {
+        int innerClass1 = 3;
+    }
+
+    class InnerClass2 extends InnerClass1 {
+        int innerClass2 = 4;
+        void display() {
+            System.out.println(innerClass1 + innerClass2 + instanceVariable + classVariable);
+        }
+    }
+}
+
+public class ObjectTest {
+    public static void main(String args[]) {
+        OuterClass outerClassObj = new OuterClass();
+        OuterClass.InnerClass2 innerClass2Obj = outerClassObj.new InnerClass2();
+        innerClass2Obj.display();
+    }
+}
+```
+
+---
+
+### Example 2: Static inner class inherited by different class
+
+```java
+class OuterClass {
+    static class NestedClass {
+        public void display() {
+            System.out.println("inside static nested class");
+        }
+    }
+}
+
+public class SomeOtherClass extends OuterClass.NestedClass {
+    public void display1() {
+        display();
+    }
+}
+```
+
 
