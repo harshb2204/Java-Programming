@@ -337,4 +337,64 @@ public class SomeOtherClass extends OuterClass.NestedClass {
 }
 ```
 
+### Example 3: Non Static Inner Class inherited by different class
+
+```java
+class OuterClass {
+    class InnerClass {
+        public void display() {
+            System.out.println("inside InnerClass");
+        }
+    }
+}
+
+public class SomeOtherClass extends OuterClass.InnerClass {
+    SomeOtherClass() {
+        new OuterClass().super();
+        // As you know, when child class constructor invoked, it first invoked the constructor of parent.
+        // But here the parent is InnerClass, so it can only be accessed by the object of OuterClass only.
+    }
+
+    public void display1() {
+        display();
+    }
+}
+```
+
+## Anonymous Inner Class
+------------------------
+
+Anonymous Inner Class:
+An inner class without a name is called an Anonymous class.
+
+**Why is it used?**
+- When we want to override the behaviour of the method without even creating any subclass.
+
+### For Example:
+
+```java
+public abstract class Car {
+    public abstract void pressBreak();
+}
+
+public class Test {
+    public static void main(String args[]) {
+        Car audiCarObj = new Car() {
+            @Override
+            public void pressBreak() {
+                // my audi specific implementation here
+                System.out.println("Audi specific break changes");
+            }
+        };
+        audiCarObj.pressBreak();
+    }
+}
+```
+
+Now, we know that we cannot create an object of an abstract class, but here we had done it. Let's understand what happened:
+
+So, 2 things happened behind the scene:
+- A subclass is created, name decided by the compiler.
+- Creates an object of the subclass and assigns its reference to the object.
+
 
