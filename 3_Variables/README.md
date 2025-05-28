@@ -271,6 +271,18 @@ int a = 10;
 Integer a1 = a;    // primitive to its wrapper
 ```
 
+#### Integer Caching and Autoboxing Example
+When you use autoboxing with Integer values between -128 and 127, Java caches these values. This means that two Integer objects created with the same value in this range will reference the same object in memory.
+
+Example:
+```java
+Integer i1 = 10;
+Integer i2 = 10;
+System.out.println(i1 == i2); // true, because both refer to the same cached object
+```
+- For values outside the range -128 to 127, new Integer objects are created, so `i1 == i2` will be false.
+- This behavior is due to Java's Integer cache for performance reasons.
+
 ### Unboxing
 - To convert a wrapper class to primitive
 For example:
@@ -278,6 +290,39 @@ For example:
 Integer n = 20;
 int n1 = n;    // wrapper to primitive
 ```
+
+### Wrapper Class Caching & Ranges
+*No need to remember these things, just use equals, compare etc.*
+
+#### ✅ Wrapper classes who cache
+- **Integer**
+  - Cached range: -128 to 127
+  - `==` returns true for values in this range due to autoboxing
+  - Outside this range: `==` returns false unless manually cached
+  - Configurable via: `-Djava.lang.IntegerCache.high=<value>`
+- **Byte**
+  - Entire range is cached: -128 to 127
+  - `==` always works for autoboxed values
+- **Short**
+  - Cached range: -128 to 127
+  - `==` returns true only within cached range
+- **Long**
+  - Cached range: -128 to 127
+  - `==` works only for autoboxed values within range
+- **Character**
+  - Cached range: 0 to 127 (i.e., \u0000 to \u007F)
+  - `==` returns true for characters in this range
+- **Boolean**
+  - Only two instances are cached: Boolean.TRUE and Boolean.FALSE
+  - `==` always returns true for same values
+
+#### ❌ Wrapper Classes without Caching
+- **Float**
+  - No caching
+  - `==` returns false for different instances even with same value
+- **Double**
+  - No caching
+  - `==` returns false for same-value boxed objects
 
 ## Constant Variable
 - We cannot change the value of a constant variable. This is usually created using final keyword.
