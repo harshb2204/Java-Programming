@@ -35,3 +35,39 @@ public class Main {
 ```
 
 So we had to typecast printValue to int to compare it with 1.
+
+## How to define Generic Classes?
+
+* We can do it using `<T>`, this T can be any alphabet like A, B, C etc.
+  So let's make our previous Print class generic:
+
+```java
+public class Print<T> {
+    T value;
+
+    public T getPrintValue(){
+        return value;
+    }
+
+    public void setPrintValue(T value){
+        this.value = value;
+    }
+}
+```
+
+Generic Type (in above example `<T>`) can be any non-primitive object.
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        Print<Integer> printObj1 = new Print<Integer>();
+        printObj1.setPrintValue(1);
+        Integer printValue = printObj1.getPrintValue();
+        if(printValue == 1){
+            // do something
+        }
+    }
+}
+```
+
+Therefore, while creating printObject I have replaced T by Integer, making it of an Integer type.
