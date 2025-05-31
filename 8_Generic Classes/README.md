@@ -107,3 +107,35 @@ public class Main {
     }
 }
 ```
+
+### 2) Generic Subclass
+
+```java
+public class Print<T> {
+    T value;
+
+    public T getPrintValue(){
+        return value;
+    }
+
+    public void setPrintValue(T value){
+        this.value = value;
+    }
+}
+```
+
+```java
+public class ColorPrint<T> extends Print<T> {
+}
+```
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        ColorPrint<String> colorPrintObj = new ColorPrint<>();
+        colorPrintObj.setPrintValue("2");
+    }
+}
+```
+
+So, for a generic subclass, we can specify the type of T at the time of object creation.
