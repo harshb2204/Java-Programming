@@ -71,3 +71,39 @@ public class Main {
 ```
 
 Therefore, while creating printObject I have replaced T by Integer, making it of an Integer type.
+
+## Inheritance in Generic Classes
+
+### 1) Non-Generic Subclass
+
+```java
+public class Print<T> {
+    T value;
+
+    public T getPrintValue(){
+        return value;
+    }
+
+    public void setPrintValue(T value){
+        this.value = value;
+    }
+}
+```
+
+```java
+public class ColorPrint extends Print<String> {
+}
+```
+
+So, here above we have extended/inherited a Generic Class to a non-generic subclass.
+
+While extending/inheriting a generic class to a non-generic subclass, we have to define the type of T at the time of extending itself.
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        ColorPrint colorPrintObj = new ColorPrint();
+        colorPrintObj.setPrintValue("2");
+    }
+}
+```
