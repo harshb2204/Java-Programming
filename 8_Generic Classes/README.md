@@ -212,3 +212,39 @@ public class Main {
     }
 }
 ```
+
+## Raw Type Object
+
+It's a name of the generic class or interface without any type argument.
+
+For example:
+
+```java
+public class Print<T> {
+    T value;
+
+    public T getPrintValue(){
+        return value;
+    }
+
+    public void setPrintValue(T value){
+        this.value = value;
+    }
+}
+```
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        Print<String> parametrizedTypePrintObject = new Print<>();
+        // Internally it passes Object as parameterized type.
+        Print rawTypePrintObject = new Print();
+        rawTypePrintObject.setPrintValue(1);
+        rawTypePrintObject.setPrintValue("hello");
+    }
+}
+```
+
+So while creating the object, we didn't pass any type as parameterized type. Therefore, internally it passes Object as parameterized type.
+
+So rawTypePrintObject is a raw type object.
