@@ -139,3 +139,76 @@ public class Main {
 ```
 
 So, for a generic subclass, we can specify the type of T at the time of object creation.
+
+## More than one Generic Type Example
+
+- We can create as many number of generic parameters as we want, i.e. 1, 2, 3, 4 ... N | Classname <T1, T2, T3, T4 ... TN>
+
+For example:
+
+```java
+public class Pair<K, V> {
+    private K key;
+    private V value;
+
+    public void put(K key, V value){
+        this.key = key;
+        this.value = value;
+    }
+}
+```
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        Pair<String, Integer> pairObj = new Pair<>();
+        pairObj.put("hello", 1243);
+    }
+}
+```
+
+So, here we've used two generic parameters.
+
+*Also both the syntaxes are right:*
+
+```java
+Pair<String, Integer> object = new Pair<String, Integer>();
+Pair<String, Integer> object2 = new Pair<>();
+```
+
+## Generic Method
+
+What if we only want to make a method generic, not the complete class? We can write generic methods too.
+- Type parameter should be before the return type of the method declaration.
+- Type parameter scope is limited to the method only.
+
+To make a method generic, put the generic type that we want it to accept before the return type. For example:
+
+```java
+public class GenericMethod {
+    public <K, V> void printValue(Pair<K, V> pair1, Pair<K, V> pair2) {
+        if (pair2.getKey().equals(pair2.getKey())) {
+            // do something
+        }
+    }
+}
+```
+
+### Generic Method with Single Generic Parameter
+
+```java
+public class Print {
+    public <T> void setValue(T busObject) {
+        // do something
+    }
+}
+```
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        Print printObj = new Print();
+        printObj.setValue(new Bus());
+    }
+}
+```
