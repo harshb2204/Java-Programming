@@ -332,4 +332,130 @@ public class Main {
 }
 ```
 
+## Wildcards
+
+- **Upper bounded wildcard**: `<? extends UpperBoundClassName>` (i.e. class name and below)
+- **Lower bounded wildcard**: `<? super LowerBoundClassName>` (i.e. class name and above)
+- **Unbounded wildcard**: `<?>` (only you can read)
+
+### For Example:
+
+Let's say I have a `Vehicle` class and `Bus`, `Car` are extending it.
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        List<Vehicle> vehicleList = new ArrayList<>();
+        vehicleList.add(new Bus());
+        vehicleList.add(new Car());
+
+        List<Bus> busList = new ArrayList<>();
+
+        vehicleList = busList; // no
+        busList = vehicleList; // no
+
+        Vehicle vehicleObj = new Vehicle();
+        Bus busObj = new Bus();
+        vehicleObj = busObj; // ok
+    }
+}
+```
+
+Here both above assignments are invalid because lists are different from objects:
+- `busList = vehicleList` is invalid because in busList we can store only the objects of type Bus.
+- `vehicleList = busList` is invalid because in vehicleList we can store both bus & car objects while busList can contain only bus objects. Hence, it is invalid.
+
+So, here wildcards can help us:
+
+```java
+public class Print {
+    public void setPrintValues(List<? extends Vehicle> vehicleList) {
+        // ...
+    }
+}
+```
+
+So we've used upper bounded wildcard. Therefore, we can pass Vehicle & its child class.
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        List<Vehicle> vehicleList = new ArrayList<>();
+        vehicleList.add(new Bus());
+        vehicleList.add(new Car());
+
+        List<Bus> busList = new ArrayList<>();
+
+        Print printObj = new Print();
+        printObj.setPrintValues(busList); // allowed
+        printObj.setPrintValues(vehicleList); // allowed
+    }
+}
+```
+
+So now we can pass vehicleList & busList since vehicleList & its child classes are allowed.
+
+### Lower Bound Wildcards
+
+Now let's see lower bound wildcards:
+
+```java
+public class Print {
+    public void setPrintValues(List<? super Vehicle> vehicleList) {
+        // ...
+    }
+}
+```
+
+Now we can pass Vehicle & its superclass type. Since Vehicle is inheriting anything, so Object can be used along with Vehicle.
+
+```java
+List<Object> objList = new ArrayList<>();
+printObj.setPrintValues(objList);
+```
+
+---
+
+Now a question arises: can't we use generic type parameter in place of wildcards to achieve the functionality? Therefore, let's see the difference between wildcard & generic type.
+
+Let's create one wildcard method & one generic type method:
+
+```java
+public class Print {
+    // wildcard method
+    public void computeList(List<? extends Number> source, List<? extends Number> destination) {
+        // ...
+    }
+
+    // generic type method
+    public <T extends Number> void computeList(List<T> source, List<T> destination) {
+        // ...
+    }
+}
+```
+
+The main difference is that wildcards are a bit less restrictive as compared to generic type. For example, in the above, we can give 2 different types of lists as source & destination for the wildcard, but for a generic method we have to give the same type of list as source & destination.
+
+In wildcard we have boundation as well, i.e. we can use `super`, but in generic method we can't do so.
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        List<Integer> wildCardIntegerSourceList = new ArrayList<>();
+        List<Float> wildCardIntegerDestinationList = new ArrayList<>();
+
+        Print printObj = new Print();
+        printObj.computeList(wildCardIntegerSourceList, wildCardIntegerDestinationList); // works for wildcard method
+        printObj.<Integer>computeList(wildCardIntegerSourceList, wildCardIntegerDestinationList); // error for generic method
+    }
+}
+```
+
+So since computeList is a generic method, it'll need same types as parameters. Therefore, it shows compilation error in case of different types.
+
+---
+
+### Unbounded Wildcard
+- Mostly used when my method can work on the methods provided by the Object class.
+
 
