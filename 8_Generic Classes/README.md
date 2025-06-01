@@ -296,4 +296,40 @@ public class Main {
 // Incorrect as String is not a child class of Number
 ```
 
+## Multi Bound Generics
+
+`<T extends Superclass & Interface1 & InterfaceN>`
+
+- The first restrictive type should be a concrete class.
+- 2, 3, and so on can be interfaces.
+
+### For Example:
+
+```java
+public class A extends ParentClass implements Interface1, Interface2 {
+}
+```
+
+So let's say I want the exact above as my type parameter. It'll be:
+
+```java
+public class Print<T extends ParentClass & Interface1 & Interface2> {
+    T value;
+
+    public T getPrintValue() { return value; }
+    public void setPrintValue(T value) { this.value = value; }
+}
+```
+
+So, the below code will work fine:
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        A obj = new A();
+        Print<A> printObj = new Print<>();
+    }
+}
+```
+
 
