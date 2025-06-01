@@ -458,4 +458,92 @@ So since computeList is a generic method, it'll need same types as parameters. T
 ### Unbounded Wildcard
 - Mostly used when my method can work on the methods provided by the Object class.
 
+## Type Erasure
+
+Whatever the code we write, when the bytecode is generated, it is all replaced by actual value.
+
+### Generic Class Erasure:
+
+```java
+// Before erasure
+public class Print<T> {
+    T value;
+    public void setValue(T val) {
+        this.value = val;
+    }
+}
+```
+
+```java
+// After erasure
+public class Print {
+    Object value;
+    public void setValue(Object val) {
+        this.value = val;
+    }
+}
+```
+
+### Generic Class Bound Type Erasure:
+
+```java
+// Before erasure
+public class Print<T extends Number> {
+    T value;
+    public void setValue(T val) {
+        this.value = val;
+    }
+}
+```
+
+```java
+// After erasure
+public class Print {
+    Number value;
+    public void setValue(Number val) {
+        this.value = val;
+    }
+}
+```
+
+### Generic Method Erasure:
+
+```java
+// Before erasure
+public class Print {
+    public <T> void setValue(T val) {
+        System.out.println("do something");
+    }
+}
+```
+
+```java
+// After erasure
+public class Print {
+    public void setValue(Object val) {
+        System.out.println("do something");
+    }
+}
+```
+
+### Generic Bound Type Method Erasure:
+
+```java
+// Before erasure
+public class Print {
+    public <T extends Bus> void setValue(T val) {
+        System.out.println("do something");
+    }
+}
+```
+
+```java
+// After erasure
+public class Print {
+    public void setValue(Bus val) {
+        System.out.println("do something");
+    }
+}
+```
+
 
