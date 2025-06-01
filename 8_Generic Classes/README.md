@@ -248,3 +248,52 @@ public class Main {
 So while creating the object, we didn't pass any type as parameterized type. Therefore, internally it passes Object as parameterized type.
 
 So rawTypePrintObject is a raw type object.
+
+## Bounded Generics
+
+Bounded generics can be used at generic class and method level.
+
+- **Upper Bound** (`<T extends Number>`) means T can be of type Number or its subclass only. Here, superclass (in this example Number) can also be an interface.
+- Multi Bound is also possible.
+
+It is used to restrict what all objects we can pass at this type parameter.
+
+### For Example: Upper Bound
+
+```java
+public class Print<T extends Number> {
+    T value;
+
+    public T getPrintValue(){
+        return value;
+    }
+
+    public void setPrintValue(T value){
+        this.value = value;
+    }
+}
+```
+
+// Can also be interface
+
+### Usage Examples
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        Print<Integer> parameterizedTypePrintObject = new Print<>();
+    }
+}
+// Correct since Integer is a child class of Number
+```
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        Print<String> parameterizedTypePrintObject = new Print<>();
+    }
+}
+// Incorrect as String is not a child class of Number
+```
+
+
