@@ -303,3 +303,86 @@ Output:
 monday
 tuesday
 ```
+
+---
+
+## Benefit of Enum Class vs Static Final Constants
+
+What is the benefit of Enum class when we can create constants using `static` and `final`? Let's understand this with an example:
+
+**Using static final constants:**
+```java
+public class WeekConstants {
+    public static final int MONDAY = 0;
+    public static final int TUESDAY = 1;
+    public static final int WEDNESDAY = 2;
+    public static final int THURSDAY = 3;
+    public static final int FRIDAY = 4;
+    public static final int SATURDAY = 5;
+    public static final int SUNDAY = 6;
+}
+```
+
+**Using Enum:**
+```java
+public enum EnumSample {
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY;
+}
+```
+
+**Example usage:**
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Using constant class
+        isWeekend(2); // WEDNESDAY, so it will return false
+        isWeekend(6); // SUNDAY, so it will return true
+        isWeekend(100); // This value is not expected, but still we are able to send this in parameter
+
+        // Using enum - better readability and full control on what value we can pass in parameter
+        isWeekend(EnumSample.WEDNESDAY); // return false
+        isWeekend(EnumSample.SUNDAY); // return true
+    }
+
+    public static boolean isWeekend(int day) {
+        if (WeekConstants.SATURDAY == day || WeekConstants.SUNDAY == day)
+            return true;
+        return false;
+    }
+
+    public static boolean isWeekend(EnumSample day) {
+        if (EnumSample.SATURDAY == day || EnumSample.SUNDAY == day)
+            return true;
+        return false;
+    }
+}
+```
+
+**Advantages of Enum:**
+- It has better readability.
+- We have control on what value we can pass in parameter.
+
+---
+
+## Final Class
+
+A final class is a class which cannot be inherited.
+
+**For example:**
+```java
+public final class TestClass {
+}
+```
+
+Trying to extend a final class will result in a compilation error:
+```java
+public class MyOtherClass extends TestClass {
+    // Error: Cannot inherit from final 'TestClass'
+}
+```
