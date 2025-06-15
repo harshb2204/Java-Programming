@@ -253,3 +253,53 @@ In Tuesday Dummy Method
 ```
 
 So, enums can have an abstract method which in turn will be implemented by all the constants.
+
+---
+
+## Enum Implements Interface
+
+Enums can also implement interfaces in Java. This allows you to define methods in an interface and provide their implementation in the enum, making them available for every constant.
+
+```java
+public interface MyInterface {
+    public String toLowerCase();
+}
+```
+
+```java
+public enum EnumImplementInterface implements MyInterface {
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY;
+
+    @Override
+    public String toLowerCase() {
+        return this.name().toLowerCase();
+    }
+}
+```
+
+So here, the enum implements an interface and we can call `toLowerCase()` for every constant.
+
+Example usage:
+
+```java
+public class EnumDemo {
+    public static void main(String[] args) {
+        EnumImplementInterface enumImplementInterface = EnumImplementInterface.MONDAY;
+        System.out.println(enumImplementInterface.toLowerCase());
+        EnumImplementInterface enumImplementInterface1 = EnumImplementInterface.TUESDAY;
+        System.out.println(enumImplementInterface1.toLowerCase());
+    }
+}
+```
+
+Output:
+```
+monday
+tuesday
+```
