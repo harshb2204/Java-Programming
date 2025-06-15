@@ -67,3 +67,189 @@ Output:
 6
 FRIDAY
 ```
+
+---
+
+## Enum With Custom Values
+
+In Java, enums can have custom values and methods. Each variable defined in the enum class will be applicable for every constant in the class. In a way, each constant is an object of the enum class having defined variables.
+
+We also need to define a parameterized constructor, which will be invoked for every constant. To define a method for the whole class (enum), we need to make it static; otherwise, it'll be applicable for all the constants.
+
+```java
+public enum EnumWithCustomValues {
+    MONDAY(101, "1st Day of the Week"),
+    TUESDAY(102, "2nd Day of the Week"),
+    WEDNESDAY(103, "3rd Day of the Week"),
+    THURSDAY(104, "4th Day of the Week"),
+    FRIDAY(105, "5th Day of the Week"),
+    SATURDAY(106, "6th Day of the Week"),
+    SUNDAY(107, "7th Day of the Week");
+
+    private int value;
+    private String comment;
+
+    EnumWithCustomValues(int value, String comment) {
+        this.value = value;
+        this.comment = comment;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public static EnumWithCustomValues getEnumFromValue(int value) {
+        for (EnumWithCustomValues enumWithCustomValue : EnumWithCustomValues.values()) {
+            if (enumWithCustomValue.value == value)
+                return enumWithCustomValue;
+        }
+        return null;
+    }
+}
+```
+
+**Key Points:**
+- Each variable defined in the enum class is applicable to every constant.
+- A parameterized constructor is required for custom values.
+- Static methods are used for operations on the whole enum class.
+
+---
+
+## Example Usage of EnumWithCustomValues
+
+```java
+public class EnumDemo {
+    public static void main(String[] args) {
+        EnumWithCustomValues enumWithCustomValue = EnumWithCustomValues.getEnumFromValue(107);
+        EnumWithCustomValues enumWithCustomValue1 = EnumWithCustomValues.TUESDAY;
+        System.out.println(enumWithCustomValue.getComment());
+        System.out.println(enumWithCustomValue1.getComment());
+        System.out.println(EnumWithCustomValues.MONDAY.getValue());
+        System.out.println(EnumWithCustomValues.MONDAY.getComment());
+    }
+}
+```
+
+Output:
+```
+7th Day Of the Week
+2nd Day Of the Week
+101
+1st Day Of the Week
+```
+
+---
+
+## Method Override by Constant
+
+Enums in Java allow you to override methods for specific constants. If a method is not static, it is applicable for all constants, but you can override it for a particular constant.
+
+```java
+public enum EnumMethodOverrideByConstant {
+    MONDAY {
+        @Override
+        public void dummyMethod() {
+            System.out.println("Monday Dummy Method");
+        }
+    },
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY;
+
+    public void dummyMethod() {
+        System.out.println("Default Dummy Method");
+    }
+}
+```
+
+**Explanation:**
+- Since `dummyMethod` is not static, it is applicable for all constants.
+- We can override the method for a particular constant (e.g., `MONDAY`).
+
+Example usage:
+
+```java
+public class EnumDemo {
+    public static void main(String[] args) {
+        EnumMethodOverrideByConstant enumMethodOverrideByConstant = EnumMethodOverrideByConstant.MONDAY;
+        EnumMethodOverrideByConstant enumMethodOverrideByConstant1 = EnumMethodOverrideByConstant.TUESDAY;
+        enumMethodOverrideByConstant.dummyMethod();
+        enumMethodOverrideByConstant1.dummyMethod();
+    }
+}
+```
+
+Output:
+```
+Monday Dummy Method
+Default Dummy Method
+```
+
+Since we've overridden `dummyMethod` for `MONDAY`, we get different output.
+
+---
+
+## Enum With Abstract Method
+
+Enums can have abstract methods, which must be implemented by all constants.
+
+```java
+public enum EnumWithAbstractMethod {
+    MONDAY {
+        @Override
+        public void dummyMethod() {
+            System.out.println("In Monday Dummy Method");
+        }
+    },
+    TUESDAY {
+        @Override
+        public void dummyMethod() {
+            System.out.println("In Tuesday Dummy Method");
+        }
+    },
+    WEDNESDAY {
+        @Override
+        public void dummyMethod() {
+            System.out.println("In Wednesday Dummy Method");
+        }
+    };
+
+    public abstract void dummyMethod();
+}
+```
+
+Example usage:
+
+```java
+public class EnumDemo {
+    public static void main(String[] args) {
+        EnumWithAbstractMethod enumWithAbstractMethod = EnumWithAbstractMethod.MONDAY;
+        EnumWithAbstractMethod enumWithAbstractMethod1 = EnumWithAbstractMethod.TUESDAY;
+        enumWithAbstractMethod.dummyMethod();
+        enumWithAbstractMethod1.dummyMethod();
+    }
+}
+```
+
+Output:
+```
+In Monday Dummy Method
+In Tuesday Dummy Method
+```
+
+So, enums can have an abstract method which in turn will be implemented by all the constants.
