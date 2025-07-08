@@ -15,15 +15,24 @@ It accepts a serializable object and can write to a byte stream
 similarly, for ObjectInputStream:-
 public final Object readObject() throws IOException, ClassNotFoundException;
 
+
+
+SerialVersionUID:- JVM associates a long number with each serializable object to identify if on deserialization class is same which was serialized means it has not been changed. JVM auto assign if we do not give it one based on class's attributes, access modifiers, class name etc
+
+## Transient Fields
+
+The `transient` keyword is used to mark fields that should not be serialized. When an object is serialized, transient fields are ignored and not included in the serialized data.
+
 ```java
-public class Person implements Serializable {
-    private int age;
+public class Employee implements Serializable {
     private String name;
-    private Address country; // must be serializable too
+    private int id;
+    private transient String password; // This field will not be serialized
+    private transient int tempData;    // This field will not be serialized
 }
 ```
 
-SerialVersionUID:- JVM associates a long number with each serializable object to identify if on deserialization class is same which was serialized means it has not been changed. JVM auto assign if we do not give it one based on class's attributes, access modifiers, class name etc
+When the object is deserialized, transient fields will have their default values (null for objects, 0 for primitives, false for boolean).
 
 ## Simple Example
 
