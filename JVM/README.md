@@ -71,7 +71,9 @@ Each thread in the JVM consists of several key components:
    - Frames are removed upon method completion
    - Each thread maintains its own stack
 
+
 ### Native Stack
+![](/diagrams/nativemethodstack.png)
 
 Not all JVMs implementations supports native stacks. So while they are calling some native methods like thread.start() to start an OS thread, sockets communication etc they do create a native stack which invokes native C methods without any restriction of JVM through JNI (java native invocation). If JVM has been implemented using C-linkage model then it creates a native C stack and invocates accordingly. Native stack may call Java stack back and in that case thread will use Java stack only and will create frames if necessary in the Java stack only.
 
@@ -89,6 +91,43 @@ Each frame consists:
 - Operand stack
 - Reference to runtime constant pool for class of the current method
 
-![](/diagrams/nativemethodstack.png)
+### Local Variable Array
+
+It contains all the local vars that are used during the execution of the method including reference to this. Local vars can be:
+- boolean
+- byte
+- char
+- long
+- short
+- int
+- float
+- double
+- reference
+- returnAddress
+
+### Operand Stack
+
+It is used for the execution of the bytecode and it behaves like a general purpose registers does in a native CPU.
+
+JVM's Operand Stack: The JVM is a virtual machine. It doesn't have physical "registers" in the same way a CPU does for bytecode execution. Instead, it uses a stack-based architecture. The "operand stack" is a conceptual (and usually RAM-backed) stack within a Frame (which is pushed onto a thread's call stack every time a method is invoked). Bytecode instructions manipulate values on this stack.
+
+Example bytecode operations:
+- `ILOAD 0`: Pushes the value of local variable 0 onto the operand stack
+- `ILOAD 1`: Pushes the value of local variable 1 onto the operand stack
+- `IADD`: Pops the top two values, adds them, and pushes the result back onto the operand stack
+- `ISTORE 2`: Pops the top value and stores it into local variable 2
+
+Conceptually, JVM seems doing calculations using operand stack but JIT is the one which constantly compiles the code to machine code and runs on CPU using registers and ALU. JIT = convert stack based bytecode to machine code.
+
+### Dynamic Linking
+
+Each frame has a runtime constant pool. The reference points to the constant pool for the class of the method being executed for that frame.
+
+Shared between Threads:
+For example, when we try to build an executable for C/C++ then we need to explicitly define the linking to the main file so that we can generate an output file. During the linking, these reference are pointed to the memory addresses of those executables (static linking).
+
+Similarly, in Java this phase is done at the runtime. When a class is compiled a constant class pool is formed which is referenced here logically but not in memory. JVM needs to decide how to use these references to provide at the runtime so that our program can run.
+
+
 
 
