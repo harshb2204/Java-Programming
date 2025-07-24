@@ -1,4 +1,5 @@
 ![](/diagrams/process.png)
+![](/diagrams/cpu.png)
 
 ---
 
@@ -87,3 +88,47 @@ While creating the process `java MainClassName` command, a new JVM instance will
 - Increments its counter after successful execution of the instruction.
 
 All these are managed by JVM.
+
+
+Flow
+- First generate byte code (javac main.java)
+- Execute the bytecode
+- Process will be created 
+- JVM instance is allocated to a process
+
+- JIT will start to compile the bytecode -> machine code 
+- Create 3 threads, for each thread assign stack, register, counter
+- Save machine into code segment 
+- Counter is pointing to address in machine code where the threads have to start working
+- Start execution of program
+- Main thread will use the register, store the data and assign it to the CPU 
+- OS schedules and manages these threads
+- CPU will load the MC using the program counter in register
+- It will start executing, suppose only 1 second is given to execute, then it has to context switch after 1 second
+- All the result generated is stored in register of thread 
+- Now different thread runs
+- Intermediate result again stored in its thread
+- The result from the thread register is again loaded into the CPU register and resumes execution
+- When you have 2 CPU you can run parellely.
+
+---
+
+**Definition of Multithreading:**
+
+- Allows a program to perform multiple tasks at the same time.
+- Multiple threads share the same resource such as memory space but still can perform tasks independently.
+
+**Benefits and Challenges of Multithreading:**
+
+**Benefits :**
+--------------
+- Improved performance by task parallelism
+- Responsiveness
+- Resource sharing
+
+**Challenges:**
+----------------
+- Concurrency issue like deadlock, data inconsistency etc.
+- Synchronized overhead.
+- Testing and Debugging is difficult.
+
