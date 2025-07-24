@@ -73,3 +73,78 @@ When a server accepts a connection from a client, it returns a `ClientSocket`. T
 from their sockets.
 
 The 4-way tuple concept ensures that while multiple sockets can share the same local address (IP:port), each connection is uniquely identified by the combination of local and remote addresses.
+
+## Java Example: Simple Client-Server with Threads
+
+Below is a simple Java program demonstrating how a server and a client can communicate using sockets, each running in its own thread. This example shows the basic flow of socket creation, connection, and message exchange.
+
+```java
+import java.io.*;
+import java.net.*;
+
+public class ClientServerThreads {
+    public static void main(String[] args) {
+        Thread serverThread = new Thread(() -> runServer());
+        Thread clientThread = new Thread(() -> runClient());
+
+        serverThread.start();
+
+        // Ensure server starts first
+        try {
+            Thread.sleep(500); // delay to allow server to start
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        clientThread.start();
+    }
+
+    public static void runServer() {
+        try (ServerSocket serverSocket = new ServerSocket(5000)) {
+            System.out.println("Server: Waiting for client...");
+            Socket socket = serverSocket.accept();
+            System.out.println("Server: Client connected!");
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+            String messageFromClient = in.readLine();
+            System.out.println("Server received: " + messageFromClient);
+
+            out.println("Hello from Server!");
+
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void runClient() {
+        try {
+            Socket socket = new Socket("localhost", 5000);
+            System.out.println("Client: Connected to server.");
+
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            out.println("Hello from Client!");
+
+            String messageFromServer = in.readLine();
+            System.out.println("Client received: " + messageFromServer);
+
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Explanation
+- **Threads**: The server and client each run in their own thread, allowing them to operate concurrently in the same program.
+- **Server**: Listens on port 5000, accepts a client connection, reads a message, and sends a response.
+- **Client**: Connects to the server, sends a message, and reads the server's response.
+- **Synchronization**: A short delay (`Thread.sleep(500)`) ensures the server starts before the client attempts to connect.
+- **Socket Communication**: Both use `BufferedReader` and `PrintWriter` for simple text-based communication over the socket.
+
+This example demonstrates the basic socket creation process and how client-server communication works in Java using threads.
