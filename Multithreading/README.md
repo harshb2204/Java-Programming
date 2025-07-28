@@ -234,3 +234,21 @@ Going inside main method: main
 Finish main method: main
 code executed by thread: Thread-0
 ```
+## Why we have 2 ways to create a thread?
+- A class can implement more than one interface but a class can extend only one class.
+
+# Thread LifeCycle
+
+![](/diagrams/threadlifecycle.png)
+
+## Thread States
+
+| Lifecycle State | Description |
+|----------------|-------------|
+| **New** | • Thread has been created but not started.<br>• It's just an Object in memory. |
+| **Runnable** | • Thread is ready to run.<br>• Waiting for CPU time. |
+| **Running** | • When thread starts executing its code. |
+| **Blocked** | • Different scenarios where a runnable thread goes into the Blocking state:<br>  - **I/O:** like reading from a file or database.<br>  - **Lock acquired:** if a thread wants to lock on a resource which is locked by another thread, it has to wait.<br>• Releases all the MONITOR LOCKS. |
+| **Waiting** | • Thread goes into this state when we call the `wait()` method, makes it non-runnable.<br>• It goes back to runnable, once we call `notify()` or `notifyAll()` method.<br>• Releases all the MONITOR LOCKS. |
+| **Timed Waiting** | • Thread waits for a specific period of time and comes back to runnable state, after specific conditions are met.<br>• Examples: `sleep()`, `join()`.<br>• Do not Releases any MONITOR LOCKS. |
+| **Terminated** | • Life of thread is completed, it cannot be started back again. |
