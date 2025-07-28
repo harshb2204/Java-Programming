@@ -132,3 +132,105 @@ Flow
 - Synchronized overhead.
 - Testing and Debugging is difficult.
 
+---
+
+## Thread Creation Ways
+
+![](/diagrams/threadcreation.png)
+![](/diagrams/threadcreation2.png)
+
+---
+
+## Implementing Multithreading with Runnable Interface
+
+### Step 1: Create a Runnable Object
+
+**Instructions:**
+- Create a class that implements 'Runnable' interface.
+- Implement the 'run()' method to tell the task which thread has to do.
+
+```java
+public class MultithreadingLearning implements Runnable {
+    @Override
+    public void run() {
+        System.out.println("code executed by thread: " + Thread.currentThread().getName());
+    }
+}
+```
+
+### Step 2: Start the thread
+
+**Instructions:**
+- Create an instance of class that implement 'Runnable'.
+- Pass the Runnable object to the Thread Constructor.
+- Start the thread.
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        System.out.println("Going inside main method: " + Thread.currentThread().getName());
+        
+        MultithreadingLearning runnableObj = new MultithreadingLearning();
+        Thread thread = new Thread(runnableObj);
+        thread.start();
+        
+        System.out.println("Finish main method: " + Thread.currentThread().getName());
+    }
+}
+```
+
+### Output:
+
+```
+Going inside main method: main
+Finish main method: main
+code executed by thread: Thread-0
+```
+
+The output demonstrates that the main method's execution can complete before the newly started thread's `run()` method finishes, illustrating the asynchronous nature of multithreading.
+
+
+
+
+## Extending Thread Class
+![](/diagrams/threadcreation3.png)
+
+### Step 1: Create a Thread Subclass
+
+**Instructions:**
+- Create a class that extends 'Thread' class.
+- Override the 'run()' method to tell the task which thread has to do.
+
+```java
+public class MultithreadingLearning extends Thread{
+    @Override
+    public void run() {
+        System.out.println("code executed by thread: " + Thread.currentThread().getName());
+    }
+}
+```
+
+### Step 2: Initiate and Start the thread
+
+**Instructions:**
+- Create an instance of the subclass.
+- Call the start() method to begin the execution.
+
+```java
+public class Main {
+    public static void main(String args[]){
+        System.out.println("Going inside main method: "+ Thread.currentThread().getName());
+        MultithreadingLearning myThread = new MultithreadingLearning();
+        myThread.start();
+        System.out.println("Finish main method: " + Thread.currentThread().getName());
+    }
+}
+```
+
+### Output:
+
+```
+Going inside main method: main
+Finish main method: main
+code executed by thread: Thread-0
+```
