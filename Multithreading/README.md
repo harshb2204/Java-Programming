@@ -252,3 +252,157 @@ code executed by thread: Thread-0
 | **Waiting** | • Thread goes into this state when we call the `wait()` method, makes it non-runnable.<br>• It goes back to runnable, once we call `notify()` or `notifyAll()` method.<br>• Releases all the MONITOR LOCKS. |
 | **Timed Waiting** | • Thread waits for a specific period of time and comes back to runnable state, after specific conditions are met.<br>• Examples: `sleep()`, `join()`.<br>• Do not Releases any MONITOR LOCKS. |
 | **Terminated** | • Life of thread is completed, it cannot be started back again. |
+
+---
+
+## Monitor Lock
+
+**MONITOR LOCK:**
+It helps to make sure that only 1 thread goes inside the particular section of code (a synchronized block or method).
+
+```java
+public class MonitorLockExample {
+
+    public synchronized void task1() {
+        //do something
+        try {
+            System.out.println("inside task1");
+            Thread.sleep(10000);
+        } catch (Exception e) {
+            //exception handling here
+        }
+    }
+
+    public void task2() {
+        System.out.println("task2, but before synchronized");
+        synchronized (this) {
+            System.out.println("task2, inside synchronized");
+        }
+    }
+
+    public void task3() {
+        System.out.println("task3");
+    }
+
+    public static void main(String args[]){
+        MonitorLockExample obj = new MonitorLockExample();
+
+        Thread t1 = new Thread(() -> {obj.task1();});
+        Thread t2= new Thread(() -> { obj.task2();});
+        Thread t3 = new Thread(() -> {obj.task3();});
+
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+```
+
+---
+
+## Producer-Consumer Pattern Example
+
+Now let's see an Example:
+
+### SharedResource Class
+
+```java
+public class SharedResource {
+    boolean itemAvailable = false;
+
+    public synchronized void addItem() {
+        itemAvailable = true;
+        System.out.println("Item added by: " + Thread.currentThread().getName() + " and invoking all threads which are waiting");
+        notifyAll();
+    }
+
+    public synchronized void consumeItem() {
+        System.out.println("ConsumeItem method invoked by: " + Thread.currentThread().getName());
+        while (itemAvailable) {
+            try {
+                System.out.println("Thread " + Thread.currentThread().getName() + " is waiting now");
+                wait(); // to avoid 'spurious wake-up', sometimes because of system noise.
+            } catch (Exception e) {
+                //exception handling here
+            }
+        }
+        System.out.println("Item Consumed by: " + Thread.currentThread().getName());
+        itemAvailable = false;
+    }
+}
+```
+
+### ProduceTask Class
+
+```java
+public class ProduceTask implements Runnable {
+    SharedResource sharedResource;
+
+    ProduceTask(SharedResource resource) {
+        this.sharedResource = resource;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Producer thread: " + Thread.currentThread().getName());
+        try {
+            Thread.sleep(5000);
+        } catch (Exception e) {
+            //exception handling here
+        }
+        sharedResource.addItem();
+    }
+}
+```
+
+### ConsumeTask Class
+
+```java
+public class ConsumeTask implements Runnable {
+    SharedResource sharedResource;
+
+    ConsumeTask(SharedResource resource) {
+        this.sharedResource = resource;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Consumer thread: " + Thread.currentThread().getName());
+        sharedResource.consumeItem();
+    }
+}
+```
+
+### Main Class
+
+```java
+public class Main {
+    public static void main(String args[]){
+        System.out.println("Main method start");
+
+        SharedResource sharedResource = new SharedResource();
+
+        // producer thread
+        Thread producerThread = new Thread(new ProduceTask(sharedResource));
+        // consumer thread
+        Thread consumerThread = new Thread(new ConsumeTask(sharedResource));
+
+        //thread is in "RUNNABLE state"
+        producerThread.start();
+        consumerThread.start();
+
+        System.out.println("Main method end");
+    }
+}
+```
+
+### Alternative: Using Lambda Expression
+
+Or use lambda expression, instead of creating ProduceTask and ConsumeTask class:
+
+```java
+Thread consumerThread = new Thread(() -> {
+    System.out.println("Consumer Thread: " + Thread.currentThread().getName());
+    sharedResource.consumeItem();
+});
+```
