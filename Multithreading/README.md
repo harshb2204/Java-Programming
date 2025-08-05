@@ -406,3 +406,59 @@ Thread consumerThread = new Thread(() -> {
     sharedResource.consumeItem();
 });
 ```
+
+---
+
+## Why Stop, Resume, Suspended methods are deprecated?
+
+**STOP:** 
+- Terminates the thread abruptly
+- No lock release
+- No resource clean up happens
+
+**SUSPEND:** 
+- Put the Thread on hold (suspend) for temporarily
+- No lock is released
+
+**RESUME:** 
+- Used to Resume the execution of Suspended thread
+
+**Both these operations could lead to issues like deadlock.**
+
+---
+
+## JOIN Method
+
+**JOIN:** When JOIN method is invoked on a thread object, the current thread will be blocked and waits for the specific thread to finish.
+
+It is helpful when we want to coordinate between threads or to ensure we complete certain task before moving ahead.
+
+**Example Flow:**
+- Main thread creates T1 (Thread 1)
+- Main calls T1.join() - Main waits for T1 to finish
+- T1 executes and completes
+- Main resumes execution
+
+---
+
+## THREAD PRIORITY
+
+**Priorities are integer ranging from 1 to 10:**
+- **1 → low priority**
+- **10 → highest priority**
+
+**Important Note:** Even when we set the thread priority while creation, it's **not guaranteed** to follow any specific order. It's just a hint to the thread scheduler about which thread to execute next, but it's **not a strict rule**.
+
+**Inheritance:** When a new thread is created, it inherits the priority of its parent thread.
+
+**Custom Priority:** We can set custom priority using `setPriority(int priority)` method.
+
+**Example:**
+- T1: 5
+- T2: 4  
+- T3: 10 (highest priority)
+- T4: 1 (lowest priority)
+
+**Execution Order (suggested by priority):** T3 → T1 → T2 → T4
+
+**Inheritance Example:** Main (5) → T1 (10) - T1 inherits from Main but can be set to different priority.
