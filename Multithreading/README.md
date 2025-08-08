@@ -462,3 +462,10 @@ It is helpful when we want to coordinate between threads or to ensure we complet
 **Execution Order (suggested by priority):** T3 → T1 → T2 → T4
 
 **Inheritance Example:** Main (5) → T1 (10) - T1 inherits from Main but can be set to different priority.
+
+
+## Daemon Thread
+- something which runs async
+- Say you have a main thread (user thread) from there you create a daemon thread t1
+- As soon as your user thread finishes, daemon thread also stops
+- Gc, autosave, logging can be some examples of daemon thread
