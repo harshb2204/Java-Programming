@@ -469,3 +469,147 @@ It is helpful when we want to coordinate between threads or to ensure we complet
 - Say you have a main thread (user thread) from there you create a daemon thread t1
 - As soon as your user thread finishes, daemon thread also stops
 - Gc, autosave, logging can be some examples of daemon thread
+
+
+## Locks And Conditions
+
+If all threads are using same object synchronised can be used, but when we have the requirement that different objects are being used and only one thread should go in the critical section we have custom locks.
+
+## ReentrantLock Example
+
+### Main Class
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        SharedResource resource = new SharedResource();
+        
+        Thread th1 = new Thread(() -> {
+            resource.producer();
+        });
+        
+        Thread th2 = new Thread(() -> {
+            resource.producer();
+        });
+        
+        th1.start();
+        th2.start();
+    }
+}
+```
+
+### SharedResource Class
+
+```java
+public class SharedResource {
+    boolean isAvailable = false;
+    ReentrantLock lock = new ReentrantLock();
+    
+    public void producer() {
+        try {
+            lock.lock();
+            System.out.println("Lock acquired by: " + Thread.currentThread().getName());
+            isAvailable = true;
+            Thread.sleep(4000);
+        } catch (Exception e) {
+            
+        } finally {
+            lock.unlock();
+            System.out.println("Lock release by: " + Thread.currentThread().getName());
+        }
+    }
+}
+```
+
+This example demonstrates how `ReentrantLock` provides exclusive access to a critical section. The lock ensures that only one thread can execute the `producer()` method at a time, preventing race conditions and data inconsistency.
+
+---
+
+## Shared Lock vs Exclusive Lock
+
+### What is a Shared Lock?
+
+A data item is locked for reading using a **Shared Lock (S)**, sometimes referred to as a read lock. Other transactions can get a shared lock on a data item that a transaction is holding, but they are not able to obtain an exclusive lock to alter it.
+
+**Example of Shared Lock:**
+
+Take into consideration two transactions that want to read A = 100, the same data item. Inconsistencies may arise if one transaction tries to change A while the other is still reading it. A shared lock, however, stops updates until every transaction has completed reading.
+
+### What is an Exclusive Lock?
+
+A data item is locked for writing using an **Exclusive Lock (X)**, sometimes referred to as a write lock. No other transaction is able to access or alter a data item that it has an exclusive lock on until the lock is released.
+
+**Example of Exclusive Lock:**
+
+An example of an exclusive lock is when a transaction obtains an exclusive lock (X-lock) in order to update a value, such as A = 100, by subtracting 50. As a result, until the update is finished and the lock is released, no other transaction is allowed to read from or write to A.
+
+---
+
+## ReadWriteLock Example
+
+The `ReentrantReadWriteLock` provides a practical implementation of shared (read) and exclusive (write) locks, allowing multiple readers or a single writer to access a resource.
+
+### Main Class
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        SharedResource resource = new SharedResource();
+        SharedResource resource1 = new SharedResource();
+        ReadWriteLock lock = new ReentrantReadWriteLock();
+        
+        Thread th1 = new Thread(() -> { resource.producer(lock); });
+        Thread th2 = new Thread(() -> { resource.producer(lock); });
+        Thread th3 = new Thread(() -> { resource1.consume(lock); });
+        
+        th1.start();
+        th2.start();
+        th3.start();
+    }
+}
+```
+
+### SharedResource Class
+
+```java
+public class SharedResource {
+    boolean isAvailable = false;
+    
+    public void producer(ReadWriteLock lock) {
+        try {
+            lock.readLock().lock();
+            System.out.println("Read Lock acquired by: " + Thread.currentThread().getName());
+            isAvailable = true;
+            Thread.sleep(8000);
+        } catch (Exception e) {
+            // exception handling
+        } finally {
+            lock.readLock().unlock();
+            System.out.println("Read Lock release by: " + Thread.currentThread().getName());
+        }
+    }
+    
+    public void consume(ReadWriteLock lock) {
+        try {
+            lock.writeLock().lock();
+            System.out.println("Write Lock acquired by: " + Thread.currentThread().getName());
+            isAvailable = false;
+            Thread.sleep(8000);
+        } catch (Exception e) {
+            // exception handling
+        } finally {
+            lock.writeLock().unlock();
+            System.out.println("Write Lock release by: " + Thread.currentThread().getName());
+        }
+    }
+}
+```
+
+### Key Points:
+
+- **ReadLock**: More than 1 thread can acquire the read lock (shared lock)
+- **WriteLock**: Only 1 thread can acquire the write lock (exclusive lock)
+- **ReadWriteLock**: Manages both read and write locks, allowing higher concurrency
+- **Multiple readers** can access the resource simultaneously
+- **Single writer** gets exclusive access, blocking all other operations
+- Locks are properly released in `finally` blocks to prevent deadlocks
