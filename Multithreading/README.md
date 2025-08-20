@@ -579,7 +579,7 @@ public class SharedResource {
         try {
             lock.readLock().lock();
             System.out.println("Read Lock acquired by: " + Thread.currentThread().getName());
-            isAvailable = true;
+            // isAvailable = true; // do not alter anyting in shared lock
             Thread.sleep(8000);
         } catch (Exception e) {
             // exception handling
@@ -609,7 +609,248 @@ public class SharedResource {
 
 - **ReadLock**: More than 1 thread can acquire the read lock (shared lock)
 - **WriteLock**: Only 1 thread can acquire the write lock (exclusive lock)
-- **ReadWriteLock**: Manages both read and write locks, allowing higher concurrency
-- **Multiple readers** can access the resource simultaneously
-- **Single writer** gets exclusive access, blocking all other operations
-- Locks are properly released in `finally` blocks to prevent deadlocks
+- If you application reads are very high put a read lock
+
+
+![](/diagrams/locks.png)
+Suppose we have a table as shown, the last column is the row version it increments whenever changes are made 
+Thread T1 wants to make changes to the id 123 also thread T2 wants to make changes to the id 123
+At time 1 T1 will read 123, also T2 will read , they will also share the version at the time of reading
+At time 2 they perform some operation like it updates the type to teacher (T1) and T2 updates type to ex student
+There are 2 scenarios -> At time 3 update to db ,when changing the type it will check if the row version is still 1 
+At time 4 T1 is trying to update to teacher but it will check that the row version is incremented and is not 1, therefore it will rollback
+
+---
+
+## StampedLock
+
+StampedLock provides support for read/write lock functionality similar to ReadWriteLock, but with additional features and better performance characteristics.
+
+### 1. Support Read/Write Lock functionality like ReadWriteLock
+
+#### Main Class
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        SharedResource resource = new SharedResource();
+        
+        Thread th1 = new Thread(() -> { resource.producer(); });
+        Thread th2 = new Thread(() -> { resource.producer(); });
+        Thread th3 = new Thread(() -> { resource.consume(); });
+        
+        th1.start();
+        th2.start();
+        th3.start();
+    }
+}
+```
+
+#### SharedResource Class
+
+```java
+public class SharedResource {
+    boolean isAvailable = false;
+    StampedLock lock = new StampedLock();
+    
+    public void producer() {
+        long stamp = lock.readLock(); // Acquire read lock
+        try {
+            System.out.println("Read Lock acquired by: " + Thread.currentThread().getName());
+            isAvailable = true;
+            Thread.sleep(6000);
+        } catch (Exception e) {
+            // Exception handling
+        } finally {
+            lock.unlockRead(stamp); // Release read lock using stamp
+            System.out.println("Read Lock release by: " + Thread.currentThread().getName());
+        }
+    }
+    
+    public void consume() {
+        long stamp = lock.writeLock(); // Acquire write lock
+        try {
+            System.out.println("Write Lock acquired by: " + Thread.currentThread().getName());
+            isAvailable = false;
+        } catch (Exception e) {
+            // Exception handling
+        } finally {
+            lock.unlockWrite(stamp); // Release write lock using stamp
+            System.out.println("Write Lock release by: " + Thread.currentThread().getName());
+        }
+    }
+}
+```
+
+### 2. Support Optimistic Lock functionality too
+
+#### Main Class
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        SharedResource resource = new SharedResource();
+        
+        Thread th1 = new Thread(() -> { resource.producer(); });
+        Thread th2 = new Thread(() -> { resource.consumer(); });
+        
+        th1.start();
+        th2.start();
+    }
+}
+```
+
+#### SharedResource Class
+
+```java
+public class SharedResource {
+    int a = 10;
+    StampedLock lock = new StampedLock();
+    
+    public void producer() {
+        long stamp = lock.tryOptimisticRead(); // Try optimistic read lock
+        try {
+            System.out.println("Taken optimistic lock");
+            a = 11;
+            Thread.sleep(6000);
+            
+            if (lock.validate(stamp)) {
+                System.out.println("updated a value successfully");
+            } else {
+                System.out.println("rollback of work");
+                a = 10; // rollback
+            }
+        } catch (Exception e) {
+            // Exception handling
+        }
+    }
+    
+    public void consumer() {
+        long stamp = lock.writeLock(); // Acquire write lock
+        try {
+            System.out.println("Write Lock acquired by: " + Thread.currentThread().getName());
+            System.out.println("performing work");
+            a = 9;
+        } catch (Exception e) {
+            // Exception handling
+        } finally {
+            lock.unlockWrite(stamp); // Release write lock using stamp
+            System.out.println("Write Lock release by: " + Thread.currentThread().getName());
+        }
+    }
+}
+```
+
+### Key Points:
+
+- **Read/Write Lock Support**: Provides read/write lock functionality like ReadWriteLock
+- **Stamps**: Each lock operation returns a stamp that must be used to unlock
+- **Optimistic Reads**: Supports optimistic read operations for better performance
+- **No Reentrancy**: Unlike ReentrantReadWriteLock, StampedLock is not reentrant
+- **Performance**: Generally provides better performance than ReadWriteLock for most use cases
+- **Stamp Validation**: Stamps can be validated to check if the lock state has changed
+- **Optimistic Locking**: Allows reads to proceed without blocking, but requires validation
+- **Rollback Support**: When optimistic reads fail validation, work can be rolled back
+
+---
+
+## Semaphores
+
+A **Semaphore** is a synchronization primitive that controls access to a shared resource through permits. It maintains a count of permits and allows threads to acquire and release them. Unlike locks which allow only one thread at a time, semaphores can allow multiple threads to access a resource simultaneously up to a specified limit.
+
+### Key Concepts:
+
+- **Permits**: The number of threads that can access the resource simultaneously
+- **Acquire**: Decrements the permit count (blocks if no permits available)
+- **Release**: Increments the permit count (signals waiting threads)
+- **Binary Semaphore**: Semaphore with 1 permit (similar to mutex/lock)
+- **Counting Semaphore**: Semaphore with multiple permits
+
+### Types of Semaphores:
+
+1. **Binary Semaphore**: Has only 1 permit (0 or 1)
+2. **Counting Semaphore**: Has multiple permits (n permits)
+
+---
+
+## Semaphore Example - Resource Pool
+
+### Main Class
+
+```java
+public class Main {
+    public static void main(String args[]) {
+        SharedResource resource = new SharedResource();
+        
+        Thread th1 = new Thread(() -> { resource.producer(); });
+        Thread th2 = new Thread(() -> { resource.producer(); });
+        Thread th3 = new Thread(() -> { resource.producer(); });
+        Thread th4 = new Thread(() -> { resource.producer(); });
+        
+        th1.start();
+        th2.start();
+        th3.start();
+        th4.start();
+    }
+}
+```
+
+### SharedResource Class
+
+```java
+import java.util.concurrent.Semaphore;
+
+public class SharedResource {
+    boolean isAvailable = false;
+    Semaphore lock = new Semaphore(2); // Allow 2 threads at a time
+    
+    public void producer() {
+        try {
+            lock.acquire(); // Acquire permit
+            System.out.println("Lock acquired by: " + Thread.currentThread().getName());
+            isAvailable = true;
+            Thread.sleep(4000);
+        } catch (Exception e) {
+            // Exception handling
+        } finally {
+            lock.release(); // Release permit
+            System.out.println("Lock release by: " + Thread.currentThread().getName());
+        }
+    }
+}
+```
+
+**Output Example:**
+```
+Lock acquired by: Thread-0
+Lock acquired by: Thread-1
+Lock release by: Thread-0
+Lock acquired by: Thread-2
+Lock release by: Thread-1
+Lock acquired by: Thread-3
+Lock release by: Thread-2
+Lock release by: Thread-3
+```
+
+This example shows how a semaphore with 2 permits allows exactly 2 threads to execute the critical section simultaneously.
+
+---
+
+## Semaphore Methods
+
+### Important Methods:
+
+| Method | Description |
+|--------|-------------|
+| **acquire()** | Acquires a permit, blocking if none are available |
+| **acquire(int permits)** | Acquires specified number of permits |
+| **tryAcquire()** | Tries to acquire a permit without blocking (returns boolean) |
+| **tryAcquire(long timeout, TimeUnit unit)** | Tries to acquire with timeout |
+| **release()** | Releases a permit back to the semaphore |
+| **release(int permits)** | Releases specified number of permits |
+| **availablePermits()** | Returns number of available permits |
+| **getQueueLength()** | Returns number of threads waiting to acquire |
+
+---
+
+
