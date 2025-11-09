@@ -853,4 +853,15 @@ This example shows how a semaphore with 2 permits allows exactly 2 threads to ex
 
 ---
 
+Scenario where Semaphore is important:-
+- You have 2 printers, you can allow 2 threads to come at a time
+- Connection Pool
+
+
+
+## Inter Thread Communication
+- synchronize() puts a monitor lock, we have wait and notify with which thread communicate with each other
+- With these locks discussed above there are no monitor locks, we have different methods here 
+- await() - wait()
+- signal() - notify()
 
