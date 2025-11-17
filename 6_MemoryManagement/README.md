@@ -32,15 +32,15 @@ public class MemoryManagement {
     public static void main(String[] args[]) {
         int primitiveVariable1 = 10;  // primitive data type
         Person personObj = new Person();  // reference of object
-        String stringLiteral1 = "abc";  // string literal
+        String stringLiteral1 = "24";  // string literal
         MemoryManagement memObj = new MemoryManagement();
         memObj.memoryManagementTest(personObj);
     }
 
     private void memoryManagementTest(Person personObj) {
         Person personObj2 = personObj;  // reference of object
-        String stringLiteral2 = "xyz";  // string literal
-        String stringObject = new String("xyz");  // string object
+        String stringLiteral2 = "24";  // string literal
+        String stringObject = new String("24");  // string object
     }
 }
 ```
