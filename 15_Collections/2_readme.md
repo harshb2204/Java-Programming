@@ -179,3 +179,138 @@ Before:        5          After:        8
 Only 8 remains, which is removed next.
 
 This is why `poll()` returns elements in ascending order (1, 2, 5, 8), maintaining the min-heap property throughout the removal process.
+
+### Max Priority Queue
+
+#### Code Example
+
+```java
+public class MaxPriorityQueueExample {
+    public static void main(String args[]) {
+        //max priority queue, used to solve problems of max heap
+        PriorityQueue<Integer> maxPQ = new PriorityQueue<>((Integer a, Integer b) -> b - a);
+        maxPQ.add(5);
+        maxPQ.add(2);
+        maxPQ.add(8);
+        maxPQ.add(1);
+        
+        //lets print all the values
+        maxPQ.forEach((Integer val) -> System.out.println(val));
+        
+        //remove top element from the PQ and print
+        while(!maxPQ.isEmpty())
+        {
+            int val = maxPQ.poll();
+            System.out.println("remove from top:" + val);
+        }
+    }
+}
+```
+
+**Output:**
+```
+8
+2
+5
+1
+remove from top:8
+remove from top:5
+remove from top:2
+remove from top:1
+```
+
+#### Tree Construction and Heapify Process
+
+Let's trace through how the PriorityQueue builds the max-heap structure step by step:
+
+**Step 1: Adding 5**
+```
+        5
+```
+Initial state: Only one element, already a valid max-heap.
+
+**Step 2: Adding 2**
+```
+        5
+       /
+      2
+```
+After adding 2, we check if we need to heapify up. Since 2 < 5, max-heap property is maintained.
+
+**Step 3: Adding 8**
+```
+        5
+       / \
+      2   8
+```
+After adding 8, we need to heapify up. Since 8 > 5, we swap:
+```
+        8
+       / \
+      2   5
+```
+Now 8 is at the root (max-heap property maintained).
+
+**Step 4: Adding 1**
+```
+        8
+       / \
+      2   5
+     /
+    1
+```
+After adding 1, we check if we need to heapify up. Since 1 < 2, max-heap property is maintained.
+
+**Internal Array Representation:**
+The PriorityQueue internally stores elements in an array. The final structure would be:
+```
+Index: 0  1  2  3
+Value: 8  2  5  1
+```
+
+**Why forEach() shows: 8, 2, 5, 1?**
+The `forEach()` method iterates through the internal array representation, which gives: 8, 2, 5, 1. This is the level-order traversal of the heap tree structure.
+
+**Why poll() removes in order: 8, 5, 2, 1?**
+The `poll()` method:
+1. Removes the root (maximum element = 8)
+2. Moves the last element (1) to the root
+3. Heapifies down to maintain max-heap property by swapping with the larger child.
+4. Repeats until the queue is empty
+
+**After poll() removes 8:**
+```
+Before:        8          After:      5
+              / \                    / \
+             2   5    →             2   1
+            /                      
+           1                       
+```
+1 moves to root, then heapifies down (1 < 5, so swap with larger child 5).
+
+**After poll() removes 5:**
+```
+Before:        5          After:        2
+              / \                    /
+             2   1    →             1
+```
+1 moves to root, then heapifies down (1 < 2, so swap with 2).
+
+**After poll() removes 2:**
+```
+Before:        2          After:        1
+              /                      
+             1    →                   
+```
+Only 1 remains, which is removed next.
+
+This is why `poll()` returns elements in descending order (8, 5, 2, 1), maintaining the max-heap property throughout the removal process.
+
+### Time Complexity
+
+| Operation | Complexity |
+|-----------|------------|
+| Add and Offer | O(log n) |
+| Peek | O(1) |
+| Poll and Remove head element | O(log n) |
+| Remove arbitrary element | O(n) |
